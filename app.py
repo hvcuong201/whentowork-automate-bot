@@ -2,8 +2,8 @@ from atexit import register
 from bot.register_pref import RegisterPreference
 from tkinter import BooleanVar, Checkbutton, StringVar, Tk, Label, Button, Entry
 
-LOGIN = "hvcuong201"
-PASSWD = "StayGr1nding"
+LOGIN = "" # Put your WhenToWork username
+PASSWD = "" # Put your WhenToWork password
 DAYS = {'Monday': 2, 'Tuesday': 3, 'Wednesday': 4, 'Thursday': 5, 'Friday': 6}
 
 class wtwbot(Tk):
