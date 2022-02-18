@@ -2,3 +2,4 @@
 __pycache__/
 bot/__pycache__
 *.docx
+test.py
