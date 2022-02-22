@@ -39,13 +39,16 @@ class wtwbot(Tk):
         self.add_btn = Button(
             self, text='Add', command=(lambda : self.fetch_schedule(day_to_hour))
         )
-        self.add_btn.grid(row=8,column=3,columnspan=3, padx=10, pady=10)                
+        self.add_btn.grid(row=8,column=3,columnspan=3, padx=10, pady=10)   
+        
+        self.bot.land_homepage()
+        self.bot.login(LOGIN, PASSWD)             
     
     def fetch_schedule(self, day_to_hour):
         processed_input_data = dict()
         for entry in day_to_hour:
             if (entry[1][0].get() != '' and entry[1][1].get() != ''):
-                processed_register_time = [entry[1][0].get(), entry[1][1].get()]
+                processed_register_time = [entry[1][0].get().split(':',1), entry[1][1].get().split(':',1)]
                 processed_input_data[DAYS[entry[0]]] = processed_register_time
         print(processed_input_data) 
         print(self.is_this_week.get())
@@ -65,12 +68,22 @@ class wtwbot(Tk):
             day_to_hour.append((day,hour))
             row += 1
         return day_to_hour
+    
+    def register(self, process_input_data):
+        if (self.is_this_week.get()):
+            self.register_hour_per_day(process_input_data)
+        if (self.is_next_week.get()):
+            print("Register for next week")
+            self.bot.navigate_forward_a_week()
+            self.register_hour_per_day(process_input_data)
 
-    def register(self, processed_input_data):
-        if (self.is_this_week):
-            for day in processed_input_data:
-                pass   
-        pass
+    def register_hour_per_day(self, processed_input_data):
+        for day in processed_input_data:
+            user_sh = processed_input_data[day][0][0] + processed_input_data[day][0][1][-2:]
+            user_sm = processed_input_data[day][0][1][:2]
+            user_eh = processed_input_data[day][1][0] + processed_input_data[day][1][1][-2:]
+            user_em = processed_input_data[day][1][1][:2]
+            self.bot.register_hour_per_day(day, user_sh, user_sm, user_eh, user_em)
     
 if __name__ == '__main__':
     bot = RegisterPreference()

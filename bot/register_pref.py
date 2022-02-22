@@ -50,7 +50,12 @@ class RegisterPreference(webdriver.Chrome):
         except:
             print("Username and/or Password field is not found")
             
-    def register_hour_per_day(self, day, user_sh, user_sm, user_eh, user_em, for_next_week=False):
+    def navigate_forward_a_week(self):
+        WebDriverWait(self.driver, 5). until(
+            EC.presence_of_element_located((By.XPATH, "//a[@id='ndNextWeek']"))
+        ).click()
+            
+    def register_hour_per_day(self, day, user_sh, user_sm, user_eh, user_em):
         # navigate to 'preference'
         self.driver.find_element(
             By.XPATH, 
@@ -60,11 +65,6 @@ class RegisterPreference(webdriver.Chrome):
         pref_table_rows = WebDriverWait(self.driver, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, "//table[@id='PrefTable']/tbody/tr"))
         )
-        
-        if (for_next_week):
-            WebDriverWait(self.driver, 5). until(
-                EC.presence_of_element_located((By.XPATH, "//a[@id='ndNextWeek']"))
-            ).click()
         
         # Store the main window handles
         main_window = self.driver.window_handles[0]
